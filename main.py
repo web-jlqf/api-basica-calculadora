@@ -44,6 +44,11 @@ def multiplicar(datos: Operacion):
     """Multiplica dos números enviados en el cuerpo JSON."""
     return {"resultado": datos.a * datos.b}
 
+@app.post("/potencia", status_code=status.HTTP_201_CREATED)
+def potencia(datos: Operacion):
+    """Eleva el número 'a' a la potencia 'b'."""
+    return {"resultado": datos.a ** datos.b}
+
 @app.post("/dividir", status_code=status.HTTP_200_OK)
 def dividir(datos: Operacion):
     """Divide dos números, validando la división entre cero."""
