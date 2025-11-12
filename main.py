@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException, status
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
+import math
 
 app = FastAPI(title="API REST Calculadora")
 
@@ -52,3 +53,8 @@ def dividir(datos: Operacion):
             detail="No se puede dividir entre cero"
         )
     return {"resultado": datos.a / datos.b}
+
+@app.post("/raiz", status_code=status.HTTP_201_CREATED)
+def raiz(datos: Operacion):
+    """Raíz n-ésima de a {"a":27, "b":3} {"resultado":3} Error si raíz par de número negativo"""
+    return {"resultado": math.pow(datos.a, 1/datos.b)}
