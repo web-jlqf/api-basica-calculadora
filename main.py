@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException, status
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
+import math
 
 app = FastAPI(title="API REST Calculadora")
 
@@ -67,3 +68,33 @@ def dividir(datos: Operacion):
 def potencia(datos: Operacion):
     """Calcula la potencia"""
     return {"resultado": datos.a ** datos.b}
+
+
+@app.post("/factorial", status_code=status.HTTP_200_OK)
+def factorial(datos: OperacionTrigonometrica):
+    """Calcula el factorial"""
+    n = int(datos.a)
+    fact = 1
+    for i in range(1, n + 1):
+        fact *= i
+    return {"resultado": fact}
+
+class OperacionTrigonometrica(BaseModel):
+    a: float
+
+@app.post("/seno", status_code=status.HTTP_200_OK)
+def seno(datos: OperacionTrigonometrica):
+    """
+    Calcula el seno de 'a' (en radianes).
+    Ejemplo: {"a": 1.57}
+    """
+    return {"resultado": round(math.sin(datos.a), 4)}
+
+@app.post("/coseno", status_code=status.HTTP_200_OK)
+def coseno(datos: OperacionTrigonometrica):
+    """
+    Calcula el coseno de 'a' (en radianes).
+    Ejemplo: {"a": 0}
+    """
+    return {"resultado": round(math.cos(datos.a), 4)}
+
