@@ -19,6 +19,8 @@ class Operacion(BaseModel):
     a: float
     b: float
 
+class OperacionTrigonometrica(BaseModel):
+    a: float
 # ----------------------------
 # GET con parámetros en la URL
 # ----------------------------
