@@ -52,3 +52,53 @@ def dividir(datos: Operacion):
             detail="No se puede dividir entre cero"
         )
     return {"resultado": datos.a / datos.b}
+
+@app.post("/raiz", status_code=status.HTTP_200_OK)
+def raiz(datos: Operacion):
+    """Calcula la raíz n-ésima (b) de un número (a)."""
+    if datos.b == 0:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="El índice de la raíz (b) no puede ser cero"
+        )
+    return {"resultado": datos.a ** (1 / datos.b)}
+
+
+@app.post("/modulo", status_code=status.HTTP_200_OK)
+def modulo(datos: Operacion):
+    """Calcula el residuo de la división entre a y b."""
+    if datos.b == 0:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="No se puede calcular el módulo con un divisor de cero"
+        )
+    return {"resultado": datos.a % datos.b}
+
+
+@app.post("/logaritmo", status_code=status.HTTP_200_OK)
+def logaritmo(datos: Operacion):
+    """Calcula el logaritmo de a en base b."""
+    if datos.a <= 0:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="El argumento (a) debe ser mayor que cero"
+        )
+    if datos.b <= 0 or datos.b == 1:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="La base (b) debe ser mayor que cero y diferente de 1"
+        )
+    n = 100000.0
+    ln_a = n * (datos.a ** (1 / n) - 1)
+    ln_b = n * (datos.b ** (1 / n) - 1)
+    return {"resultado": ln_a / ln_b}
+@app.post("/seno", status_code=status.HTTP_200_OK)
+def seno(datos: OperacionTrigonometrica):
+    """Calcula el seno de 'a' (en radianes)."""
+    return {"resultado": round(math.sin(datos.a), 4)}
+
+
+@app.post("/coseno", status_code=status.HTTP_200_OK)
+def coseno(datos: OperacionTrigonometrica):
+    """Calcula el coseno de 'a' (en radianes)."""
+    return {"resultado": round(math.cos(datos.a), 4)}
