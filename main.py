@@ -52,3 +52,8 @@ def dividir(datos: Operacion):
             detail="No se puede dividir entre cero"
         )
     return {"resultado": datos.a / datos.b}
+
+@app.post("/potencia", status_code=status.HTTP_201_CREATED)
+def potencia(datos: Operacion):
+    """Eleva el número 'a' a la potencia 'b'."""
+    return {"resultado": datos.a ** datos.b}
